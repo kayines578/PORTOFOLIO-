@@ -1,0 +1,254 @@
+:root {
+  --bg: #0f1a14;
+  --panel: #1f2a24;
+  --accent: #4b5320;
+  --accent-glow: #7fff00;
+  --text: #e5e5e5;
+  --muted: #9aa5a1;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Inter', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+}
+
+.layout {
+  display: flex;
+  min-height: 100vh;
+}
+
+/* SIDEBAR */
+.sidebar {
+  width: 300px;
+  background: var(--panel);
+  padding: 30px;
+  border-right: 2px solid var(--accent);
+}
+
+.sidebar img {
+  width: 120px;
+  border-radius: 50%;
+  border: 3px solid var(--accent);
+  margin-bottom: 20px;
+}
+
+.sidebar h1 {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 22px;
+  letter-spacing: 2px;
+}
+
+.tagline {
+  color: var(--muted);
+  font-size: 13px;
+  margin: 10px 0 20px;
+}
+
+.info p {
+  font-size: 13px;
+  margin-bottom: 8px;
+}
+
+/* CONTENT */
+.content {
+  flex: 1;
+  padding: 50px;
+}
+
+.section {
+  margin-bottom: 60px;
+}
+
+.section h2 {
+  font-family: 'Orbitron', sans-serif;
+  letter-spacing: 2px;
+  color: var(--accent-glow);
+  margin-bottom: 20px;
+}
+
+.section p {
+  max-width: 700px;
+  line-height: 1.7;
+  color: var(--muted);
+}
+
+/* SKILLS */
+.skills {
+  display: flex;
+  gap: 15px;
+  margin-bottom: 20px;
+}
+
+.skill-btn {
+  background: transparent;
+  border: 1px solid var(--accent);
+  color: var(--text);
+  padding: 10px 20px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.skill-btn:hover {
+  background: var(--accent);
+}
+
+.skill-box {
+  max-width: 400px;
+  display: none;
+}
+
+.bar {
+  height: 14px;
+  background: #111;
+  margin: 10px 0;
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.fill {
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg, var(--accent), var(--accent-glow));
+  transition: width 1s ease;
+}
+
+#skillPercent {
+  font-size: 14px;
+}
+
+/* PROJECTS */
+.projects {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 20px;
+}
+
+.card {
+  background: var(--panel);
+  padding: 25px;
+  border: 1px solid var(--accent);
+  text-decoration: none;
+  color: var(--text);
+  transition: 0.3s;
+}
+
+.card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 0 15px var(--accent-glow);
+}
+
+.card.disabled {
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+/* ANIMATION */
+.reveal {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: 0.6s ease;
+}
+
+.reveal.active {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* TERMINAL INTRO */
+#terminal {
+  position: fixed;
+  inset: 0;
+  background: #020617;
+  color: #7fff00;
+  font-family: 'Orbitron', monospace;
+  padding: 40px;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+}
+
+#terminalText {
+  font-size: 14px;
+  line-height: 1.6;
+  white-space: pre-wrap;
+}
+
+/* Hide portfolio until terminal done */
+body.loaded .layout {
+  opacity: 1;
+}
+
+.layout {
+  opacity: 0;
+  transition: opacity 1s ease;
+}
+
+/* ============================= */
+/* TACTICAL PROJECT CARD UPGRADE */
+/* ============================= */
+
+.projects {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 20px;
+}
+
+.card {
+  position: relative;
+  padding: 20px;
+  background: linear-gradient(145deg, #0f1a14, #16261c);
+  border: 1px solid rgba(0, 255, 100, 0.25);
+  box-shadow: 0 0 0 rgba(0, 255, 100, 0);
+  transition: all 0.35s ease;
+  text-decoration: none;
+  overflow: hidden;
+}
+
+.card h3 {
+  color: #7dff9c;
+  font-family: 'Orbitron', sans-serif;
+  letter-spacing: 1px;
+}
+
+.card p {
+  color: #b6c8bb;
+  font-size: 0.9rem;
+}
+
+.card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(
+      to bottom,
+      transparent 0%,
+      rgba(0, 255, 100, 0.08) 50%,
+      transparent 100%
+    );
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 0 25px rgba(0, 255, 100, 0.35);
+  border-color: #7dff9c;
+}
+
+.card:hover::before {
+  opacity: 1;
+}
+
+.card.disabled {
+  opacity: 0.4;
+  pointer-events: none;
+  filter: grayscale(1);
+}

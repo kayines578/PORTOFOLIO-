@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Simulation Psychological Test</title>
+
+<style>
+body{
+    font-family: Arial;
+    background:#020617;
+    color:rgb(255, 213, 0);
+    display:flex;
+    justify-content:center;
+    padding:20px;
+}
+.container{
+    width:100%;
+    max-width:420px;
+    background:#0f172a;
+    padding:20px;
+    border-radius:15px;
+}
+/* BUTTON */
+button{
+    width:100%;
+    padding:14px;
+    margin:8px 0;
+    border:none;
+    border-radius:12px;
+    font-size:15px;
+    font-weight:bold;
+    cursor:pointer;
+    transition:0.2s;
+}
+
+/* ANSWER BUTTON */
+#ans button{
+    background:#00e7eb;
+}
+
+#ans button:hover{
+    transform:scale(1.02);
+}
+
+.selected{
+    background:#facc15 !important;
+    color:black;
+}
+
+/* NEXT BUTTON FIX */
+#nextBtn{
+    background:#3b82f6;
+    margin-top:12px;
+}
+
+#nextBtn:active{
+    transform:scale(0.98);
+}
+
+.selected{background:#facc15 !important;}
+.header{
+    display:flex;
+    justify-content:space-between;
+    font-size:14px;
+}
+.bar{
+    height:6px;
+    background:#334155;
+    border-radius:10px;
+    margin:10px 0;
+}
+.fill{
+    height:100%;
+    background:#22c55e;
+    width:0%;
+}
+.correct{color:#22c55e;}
+.wrong{color:#ef4444;}
+.review{
+    margin-top:10px;
+    padding:10px;
+    background:#1e293b;
+    border-radius:10px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container" id="app">
+<h2>SIMULATION PSYCHOLOGICAL TEST</h2>
+<p>50 soal - 25 menit</p>
+<button onclick="start()">MULAI TEST</button>
+</div>
+
+<script>
+
+// ===== BANK SOAL =====
+const bank = [
+{type:"angka",q:"2,4,8,16,...?",a:["20","24","32","30"],c:2},
+{type:"angka",q:"3,6,9,...?",a:["10","11","12","15"],c:2},
+{type:"angka",q:"5,10,20,...?",a:["30","40","50","60"],c:1},
+{type:"angka",q:"2,6,18,...?",a:["36","54","72","90"],c:1},
+{type:"angka",q:"4,9,16,...?",a:["20","25","30","36"],c:1},
+
+{type:"logika",q:"Semua A adalah B...",a:["Semua A=C","Sebagian A mungkin C","Tidak mungkin","Semua C=A"],c:1},
+{type:"logika",q:"Jika B>A dan C>B...",a:["A>C","C>A","B>A","Tidak pasti"],c:1},
+
+{type:"kepribadian",q:"Saya bekerja lebih baik...",a:["Sendiri","Tim","Fleksibel","Tidak kerja"],c:2},
+{type:"kepribadian",q:"Saat ditekan saya...",a:["Panik","Tenang","Kabur","Diam"],c:1},
+];
+
+// ===== GENERATE 50 =====
+function generate(){
+    let arr=[];
+    for(let i=0;i<50;i++){
+        arr.push(bank[Math.floor(Math.random()*bank.length)]);
+    }
+    return arr;
+}
+
+let qlist=[],i=0,score=0,ans=[],time=1500,timer,selected=null;
+let stats={angka:{b:0,t:0},logika:{b:0,t:0},kepribadian:{b:0,t:0}};
+
+// ===== START =====
+function start(){
+    qlist=generate();
+    i=0;score=0;ans=[];
+    stats={angka:{b:0,t:0},logika:{b:0,t:0},kepribadian:{b:0,t:0}};
+    time=1500;
+    run();
+    startTimer();
+}
+
+// ===== TIMER GLOBAL =====
+function startTimer(){
+    timer=setInterval(()=>{
+        time--;
+        let m=Math.floor(time/60);
+        let s=time%60;
+        document.getElementById("time").innerText=`${m}:${s<10?'0'+s:s}`;
+        if(time<=0) finish();
+    },1000);
+}
+
+// ===== LOAD =====
+function run(){
+    document.getElementById("app").innerHTML=`
+    <div class="header">
+        <span>Soal ${i+1}/50</span>
+        <span id="time"></span>
+    </div>
+    <div class="bar"><div class="fill" style="width:${(i/50)*100}%"></div></div>
+    <h3>${qlist[i].q}</h3>
+    <div id="ans"></div>
+    <button onclick="next()">Next</button>
+    `;
+
+    let div=document.getElementById("ans");
+
+    qlist[i].a.forEach((x,idx)=>{
+        let b=document.createElement("button");
+        b.innerText=x;
+        b.onclick=()=>{
+            selected=idx;
+            document.querySelectorAll("#ans button").forEach(e=>e.classList.remove("selected"));
+            b.classList.add("selected");
+        };
+        div.appendChild(b);
+    });
+}
+
+// ===== NEXT =====
+function next(){
+    if(selected===null){alert("Pilih jawaban!");return;}
+
+    let q=qlist[i];
+    stats[q.type].t++;
+    ans.push(selected);
+
+    if(selected===q.c){
+        score++;
+        stats[q.type].b++;
+    }
+
+    selected=null;
+    i++;
+
+    if(i<50) run();
+    else finish();
+}
+
+// ===== RESULT =====
+function finish(){
+    clearInterval(timer);
+
+    function p(x){return x.t?Math.round((x.b/x.t)*100):0;}
+
+    let total = Math.round((score/50)*100);
+
+    let status = total>=75?"🔥 SIAP LOLOS":
+                 total>=60?"⚠ HAMPIR SIAP":
+                 "❌ BELUM SIAP";
+
+    let html=`
+    <h2>HASIL PSYCHOLOGICAL TEST</h2>
+    <h1>${score}/50 (${total}%)</h1>
+    <h3>${status}</h3>
+
+    <p>📊 Angka: ${p(stats.angka)}%</p>
+    <p>🧠 Logika: ${p(stats.logika)}%</p>
+    <p>❤️ Kepribadian: ${p(stats.kepribadian)}%</p>
+
+    <h3>Review</h3>
+    `;
+
+    qlist.forEach((q,idx)=>{
+        html+=`
+        <div class="review">
+        ${idx+1}. ${q.q}<br>
+        Jawaban kamu: <span class="${ans[idx]===q.c?'correct':'wrong'}">${q.a[ans[idx]]||"-"}</span><br>
+        Benar: <span class="correct">${q.a[q.c]}</span>
+        </div>
+        `;
+    });
+
+    html+=`<button onclick="location.reload()">Ulangi</button>`;
+
+    document.getElementById("app").innerHTML=html;
+}
+
+</script>
+
+</body>
+</html>

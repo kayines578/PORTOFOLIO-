@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <title>Naufal | Tactical Portfolio</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Google Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div id="terminal">
+  <pre id="terminalText"></pre>
+</div>
+
+<div class="layout">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <img src="img/profile.jpeg" alt="Profile">
+    <h1>NAUFAL DZAKY</h1>
+    <p class="tagline">FRONTEND DEV • GAME CREATOR</p>
+
+    <div class="info">
+      <p>📍 Indonesia</p>
+      <p>🎓 UNKNOWN</p>
+      <p>🪖 Tactical Web & Game Dev</p>
+    </div>
+  </aside>
+
+  <!-- MAIN CONTENT -->
+  <main class="content">
+
+    <!-- ABOUT -->
+    <section class="section reveal">
+      <h2>MISSION BRIEFING</h2>
+      <p>
+        I am a developer focused on building tactical, interactive,
+        and performance-oriented web experiences and games.
+        Clean UI, logic precision, and continuous improvement
+        are my core principles.
+      </p>
+    </section>
+
+    <!-- SKILLS -->
+    <section class="section reveal">
+      <h2>SKILL ARSENAL</h2>
+
+      <div class="skills">
+        <button class="skill-btn" data-skill="html">HTML</button>
+        <button class="skill-btn" data-skill="css">CSS</button>
+        <button class="skill-btn" data-skill="javascript">JavaScript</button>
+      </div>
+
+      <div class="skill-box" id="skillBox">
+        <h3 id="skillTitle">HTML</h3>
+        <div class="bar">
+          <div class="fill" id="skillFill"></div>
+        </div>
+        <span id="skillPercent">0%</span>
+      </div>
+    </section>
+
+    <!-- PROJECTS -->
+    <section class="section reveal">
+      <h2>ACTIVE MISSIONS</h2>
+
+      <div class="projects">
+        <a href="projects/military-game/detail.html" class="card">
+  <h3>🪖 Pixel Tactical Ops</h3>
+  <p>Tactical JavaScript-based shooting game</p>
+</a>
+
+      <a href="projects/ai-game/detail.html" class="card">
+  <h3>🧠 Test psychological</h3>
+  <p>We can learn about psychological testing</p>
+</a>
+        <div class="card disabled">
+          <h3>🎖️ Classified</h3>
+          <p>More missions coming soon</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section class="section reveal">
+      <h2>COMMUNICATION</h2>
+      <p>Email: dzakyprimanda@email.com</p>
+      <p>GitHub: github.com/kayines578</p>
+    </section>
+
+  </main>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
